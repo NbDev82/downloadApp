@@ -1,6 +1,4 @@
-package com.example.downloadapp.fragments;
-
-import static android.content.Context.MODE_PRIVATE;
+package com.example.downloadapp.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,21 +9,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.example.downloadapp.DownloadTask;
 import com.example.downloadapp.MainActivity;
 import com.example.downloadapp.databinding.FragmentInputBinding;
 import com.example.downloadapp.databinding.InputDialogBinding;
 import com.example.downloadapp.listener.DownloadActionListener;
-
-import java.io.FileOutputStream;
 
 public class InputFragment extends Fragment {
     public interface OnDialogDismissedListener {

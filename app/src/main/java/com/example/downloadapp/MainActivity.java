@@ -10,12 +10,10 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.downloadapp.databinding.ActivityMainBinding;
-import com.example.downloadapp.databinding.ItemProcessingBinding;
-import com.example.downloadapp.fragments.InputFragment;
-import com.example.downloadapp.fragments.ProcessingFragment;
-import com.example.downloadapp.fragments.ResultFragment;
+import com.example.downloadapp.fragment.InputFragment;
+import com.example.downloadapp.fragment.ProcessingFragment;
+import com.example.downloadapp.fragment.ResultFragment;
 import com.example.downloadapp.listener.DownloadActionListener;
-import com.example.downloadapp.view.ItemProcessingView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.io.FileOutputStream;
