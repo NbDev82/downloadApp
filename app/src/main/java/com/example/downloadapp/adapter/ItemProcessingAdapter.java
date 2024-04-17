@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.downloadapp.databinding.ItemProcessingBinding;
 import com.example.downloadapp.view.ItemProcessingView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAdapter.ItemProcessingViewHolder> {

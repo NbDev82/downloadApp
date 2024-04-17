@@ -33,4 +33,13 @@ public class ProcessingFragment extends Fragment {
         binding.rclItems.setAdapter(adapter);
         return binding.getRoot();
     }
+
+    public void addItemProcessingView(ItemProcessingView itemProcessingView) {
+        if (itemProcessingViews == null) {
+            itemProcessingViews = new ArrayList<>();
+        }
+
+        this.itemProcessingViews.add(itemProcessingView);
+        adapter.setItemProcessingViews(itemProcessingViews);
+    }
 }

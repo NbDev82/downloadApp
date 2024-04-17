@@ -1,31 +1,44 @@
 package com.example.downloadapp.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
+import com.example.downloadapp.DownloadTask;
 import com.example.downloadapp.MainActivity;
 import com.example.downloadapp.databinding.FragmentInputBinding;
 import com.example.downloadapp.databinding.InputDialogBinding;
+import com.example.downloadapp.listener.DownloadActionListener;
+
+import java.io.FileOutputStream;
 
 public class InputFragment extends Fragment {
     public interface OnDialogDismissedListener {
         void onDialogDismissed();
     }
 
+    private static final String TAG = InputFragment.class.getSimpleName();
+
     FragmentInputBinding binding;
     InputDialogBinding bindingDialog;
     Dialog dialog;
     private OnDialogDismissedListener mListener;
+    private DownloadActionListener mDownloadActionListener;
 
     public void setOnDialogDismissedListener(OnDialogDismissedListener listener) {
         mListener = listener;
@@ -48,6 +61,17 @@ public class InputFragment extends Fragment {
         setOnDialogDismissedListener((MainActivity) requireActivity());
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if (context instanceof DownloadActionListener) {
+            mDownloadActionListener = (DownloadActionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement DownloadActionListener");
+        }
+    }
 
     @Override
     public void onDestroyView(){
@@ -73,17 +97,24 @@ public class InputFragment extends Fragment {
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        dialog.setOnDismissListener(dialog -> {
+            onDialogDismissed();
+        });
+
+        bindingDialog.btnAdd.setOnClickListener(v -> {
+            String url = bindingDialog.etLink.getText().toString();
+            String fileName = bindingDialog.etName.getText().toString();
+            mDownloadActionListener.onStartDownload(fileName, url);
+
+            dialog.dismiss();
+        });
+
         bindingDialog.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-
-        dialog.setOnDismissListener(dialog -> {
-            onDialogDismissed();
-        });
-
 
         dialog.show();
     }

@@ -4,6 +4,14 @@ public class ItemProcessingView {
     String title;
     int process;
 
+    public ItemProcessingView() {
+    }
+
+    public ItemProcessingView(String title, int process) {
+        this.title = title;
+        this.process = process;
+    }
+
     public String getTitle() {
         return title;
     }
