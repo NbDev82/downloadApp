@@ -64,12 +64,18 @@ public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAd
 
         String directoryPath = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS).getPath();
+
+        File appDir = new File(directoryPath, "downloadApp");
+        if (!appDir.exists()) {
+            appDir.mkdirs();
+        }
+
         File file;
         if(item.getFormat().equals("folder")) {
-            file = new File(directoryPath, item.getFileName());
+            file = new File(appDir, item.getFileName());
 
         } else {
-            file = new File(directoryPath, item.getFileName() + "." + item.getFormat());
+            file = new File(appDir, item.getFileName() + "." + item.getFormat());
         }
 
         FileOutputStream outputStream;

@@ -24,6 +24,7 @@ public class ItemResultAdapter extends RecyclerView.Adapter<ItemResultAdapter.It
 
     public ItemResultAdapter(List<DownloadItem> downloadItems) {
         this.downloadItems = downloadItems;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -45,7 +46,7 @@ public class ItemResultAdapter extends RecyclerView.Adapter<ItemResultAdapter.It
 
     @Override
     public int getItemCount() {
-        return 0;
+        return downloadItems.size();
     }
 
     public class ItemResultViewHolder extends RecyclerView.ViewHolder {
@@ -53,6 +54,7 @@ public class ItemResultAdapter extends RecyclerView.Adapter<ItemResultAdapter.It
         ItemResultBinding binding;
         public ItemResultViewHolder(ItemResultBinding item) {
             super(item.getRoot());
+            this.binding = item;
         }
 
         void setData(DownloadItem downloadItem){
