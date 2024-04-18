@@ -1,12 +1,10 @@
 package com.example.downloadapp;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import com.example.downloadapp.callback.OnCompleteDownloadCallBack;
 import com.example.downloadapp.databinding.ItemProcessingBinding;
 
 import java.io.FileOutputStream;
@@ -19,13 +17,17 @@ public class DownloadTask extends AsyncTask<String, Integer, Void> {
     private static final String TAG = DownloadTask.class.getSimpleName();
 
     private ItemProcessingBinding binding;
+    private OnCompleteDownloadCallBack completeDownloadCallBack;
 
     private boolean isPaused = false;
     private FileOutputStream outputStream;
+    private int progress;
 
-    public DownloadTask(ItemProcessingBinding binding, FileOutputStream outputStream) {
+    public DownloadTask(ItemProcessingBinding binding, OnCompleteDownloadCallBack completeDownloadCallBack, FileOutputStream outputStream) {
         this.binding = binding;
+        this.completeDownloadCallBack = completeDownloadCallBack;
         this.outputStream = outputStream;
+
     }
 
     @Override
@@ -60,10 +62,13 @@ public class DownloadTask extends AsyncTask<String, Integer, Void> {
 
                 long currentTime = System.currentTimeMillis();
 
-                int progress = (int) ((downloadedSize * 100) / fileSize);
+                progress = (int) ((downloadedSize * 100) / fileSize);
                 if (progress >= 100) {
                     progress = 100;
                     publishProgress(progress);
+
+                    SystemClock.sleep(1000);
+                    completeDownloadCallBack.onCompleteDownload();
                 }
 
                 if (currentTime - lastPublishTime >= publishInterval) {

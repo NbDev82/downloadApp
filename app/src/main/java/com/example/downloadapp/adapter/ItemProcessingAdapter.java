@@ -8,16 +8,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.downloadapp.DownloadTask;
-import com.example.downloadapp.callback.ViewHolderCallback;
+import com.example.downloadapp.callback.OnCompleteDownloadCallBack;
+import com.example.downloadapp.callback.ViewHolderCallBack;
 import com.example.downloadapp.databinding.ItemProcessingBinding;
 import com.example.downloadapp.model.DownloadItem;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAdapter.ItemProcessingViewHolder> implements ViewHolderCallback {
+public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAdapter.ItemProcessingViewHolder> implements ViewHolderCallBack {
     private List<DownloadItem> downloadItems;
 
     public ItemProcessingAdapter(List<DownloadItem> downloadItems) {
@@ -27,6 +29,12 @@ public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAd
     public void setDownloadItems(List<DownloadItem> downloadItems){
         this.downloadItems = downloadItems;
         notifyDataSetChanged();
+    }
+
+    public void removeItem(int position){
+        downloadItems.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, downloadItems.size());
     }
 
     @NonNull
@@ -56,7 +64,13 @@ public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAd
 
         String directoryPath = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DOWNLOADS).getPath();
-        File file = new File(directoryPath, item.getFileName() + "." + item.getFormat());
+        File file;
+        if(item.getFormat().equals("folder")) {
+            file = new File(directoryPath, item.getFileName());
+
+        } else {
+            file = new File(directoryPath, item.getFileName() + "." + item.getFormat());
+        }
 
         FileOutputStream outputStream;
         try {
@@ -65,7 +79,10 @@ public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAd
             throw new RuntimeException(e);
         }
 
-        DownloadTask downloadTask = new DownloadTask(binding, outputStream);
+        DownloadTask downloadTask = new DownloadTask(binding, () -> {
+            int pos = downloadItems.indexOf(item);
+            removeItem(pos);
+        }, outputStream);
         downloadTask.execute(item.getUrl());
     }
 
