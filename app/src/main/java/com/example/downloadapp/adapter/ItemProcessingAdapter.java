@@ -7,20 +7,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.downloadapp.databinding.ItemProcessingBinding;
-import com.example.downloadapp.view.ItemProcessingView;
+import com.example.downloadapp.model.DownloadItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAdapter.ItemProcessingViewHolder> {
-    private List<ItemProcessingView> itemProcessingViews;
+    private List<DownloadItem> downloadItems;
 
-    public ItemProcessingAdapter(List<ItemProcessingView> itemProcessingViews) {
-        this.itemProcessingViews = itemProcessingViews;
+    public ItemProcessingAdapter(List<DownloadItem> downloadItems) {
+        this.downloadItems = downloadItems;
     }
 
-    public void setItemProcessingViews(List<ItemProcessingView> itemProcessingViews){
-        this.itemProcessingViews = itemProcessingViews;
+    public void setDownloadItems(List<DownloadItem> downloadItems){
+        this.downloadItems = downloadItems;
         notifyDataSetChanged();
     }
 
@@ -38,12 +37,12 @@ public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAd
 
     @Override
     public void onBindViewHolder(ItemProcessingViewHolder holder, int position) {
-        holder.setData(itemProcessingViews.get(position));
+        holder.setData(downloadItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return itemProcessingViews.size();
+        return downloadItems.size();
     }
 
     public class ItemProcessingViewHolder extends RecyclerView.ViewHolder {
@@ -53,9 +52,9 @@ public class ItemProcessingAdapter extends RecyclerView.Adapter<ItemProcessingAd
             super(item.getRoot());
         }
 
-        void setData(ItemProcessingView itemProcessingView){
-            binding.txvTitle.setText(itemProcessingView.getTitle());
-            binding.txvDownload.setText(itemProcessingView.getProcess());
+        void setData(DownloadItem downloadItem){
+            binding.txvTitle.setText(downloadItem.getFileName());
+            binding.txvDownload.setText(downloadItem.getProgress());
         }
     }
 }

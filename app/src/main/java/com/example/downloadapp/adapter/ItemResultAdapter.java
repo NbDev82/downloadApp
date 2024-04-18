@@ -9,21 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.downloadapp.R;
 import com.example.downloadapp.databinding.ItemResultBinding;
-import com.example.downloadapp.view.ItemResultView;
+import com.example.downloadapp.model.DownloadItem;
 
 import java.util.List;
 
 public class ItemResultAdapter extends RecyclerView.Adapter<ItemResultAdapter.ItemResultViewHolder>{
 
-    private List<ItemResultView> itemResultViews;
+    private List<DownloadItem> downloadItems;
 
-    public void setItemResultViews(List<ItemResultView> itemResultViews){
-        this.itemResultViews = itemResultViews;
+    public void setItemResultViews(List<DownloadItem> downloadItems){
+        this.downloadItems = downloadItems;
         notifyDataSetChanged();
     }
 
-    public ItemResultAdapter(List<ItemResultView> itemResultViews) {
-        this.itemResultViews = itemResultViews;
+    public ItemResultAdapter(List<DownloadItem> downloadItems) {
+        this.downloadItems = downloadItems;
     }
 
     @NonNull
@@ -40,7 +40,7 @@ public class ItemResultAdapter extends RecyclerView.Adapter<ItemResultAdapter.It
 
     @Override
     public void onBindViewHolder(@NonNull ItemResultAdapter.ItemResultViewHolder holder, int position) {
-        holder.setData(itemResultViews.get(position));
+        holder.setData(downloadItems.get(position));
     }
 
     @Override
@@ -55,12 +55,12 @@ public class ItemResultAdapter extends RecyclerView.Adapter<ItemResultAdapter.It
             super(item.getRoot());
         }
 
-        void setData(ItemResultView itemResultView){
-            binding.txvTitle.setText(itemResultView.getTitle());
-            if(itemResultView.isStatus()){
+        void setData(DownloadItem downloadItem){
+            binding.txvTitle.setText(downloadItem.getFileName());
+            if(downloadItem.getStatus() == DownloadItem.EStatus.COMPLETED){
                 binding.imgStatus.setImageDrawable(
                         ContextCompat.getDrawable(binding.getRoot().getContext(), R.drawable.ic_check));
-            } else {
+            } else if (downloadItem.getStatus() == DownloadItem.EStatus.FAILED) {
                 binding.imgStatus.setImageDrawable(
                         ContextCompat.getDrawable(binding.getRoot().getContext(), R.drawable.ic_cross));
             }

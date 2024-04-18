@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.downloadapp.adapter.ItemProcessingAdapter;
 import com.example.downloadapp.databinding.FragmentProcessingBinding;
-import com.example.downloadapp.view.ItemProcessingView;
+import com.example.downloadapp.model.DownloadItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class ProcessingFragment extends Fragment {
     FragmentProcessingBinding binding;
 
     private ItemProcessingAdapter adapter;
-    private List<ItemProcessingView> itemProcessingViews;
+    private List<DownloadItem> downloadItems;
 
     public ProcessingFragment() {
     }
@@ -28,18 +28,18 @@ public class ProcessingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProcessingBinding.inflate(inflater, container, false);
-        itemProcessingViews = new ArrayList<>();
-        adapter = new ItemProcessingAdapter(itemProcessingViews);
+        downloadItems = new ArrayList<>();
+        adapter = new ItemProcessingAdapter(downloadItems);
         binding.rclItems.setAdapter(adapter);
         return binding.getRoot();
     }
 
-    public void addItemProcessingView(ItemProcessingView itemProcessingView) {
-        if (itemProcessingViews == null) {
-            itemProcessingViews = new ArrayList<>();
+    public void addItemProcessingView(DownloadItem downloadItem) {
+        if (downloadItems == null) {
+            downloadItems = new ArrayList<>();
         }
 
-        this.itemProcessingViews.add(itemProcessingView);
-        adapter.setItemProcessingViews(itemProcessingViews);
+        this.downloadItems.add(downloadItem);
+        adapter.setDownloadItems(downloadItems);
     }
 }

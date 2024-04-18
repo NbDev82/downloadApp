@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.downloadapp.adapter.ItemResultAdapter;
 import com.example.downloadapp.databinding.FragmentResultBinding;
-import com.example.downloadapp.view.ItemResultView;
+import com.example.downloadapp.model.DownloadItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class ResultFragment extends Fragment {
     FragmentResultBinding binding;
     private ItemResultAdapter adapter;
-    private List<ItemResultView> itemResultViews;
+    private List<DownloadItem> downloadItems;
 
 
     public ResultFragment() {
@@ -28,8 +28,8 @@ public class ResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentResultBinding.inflate(inflater, container, false);
-        itemResultViews = new ArrayList<>();
-        adapter = new ItemResultAdapter(itemResultViews);
+        downloadItems = new ArrayList<>();
+        adapter = new ItemResultAdapter(downloadItems);
         binding.rclItems.setAdapter(adapter);
         return binding.getRoot();
     }
