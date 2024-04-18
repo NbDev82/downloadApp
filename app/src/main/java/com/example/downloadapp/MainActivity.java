@@ -6,16 +6,20 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.downloadapp.databinding.ActivityMainBinding;
+import com.example.downloadapp.databinding.ItemProcessingBinding;
 import com.example.downloadapp.fragment.InputFragment;
 import com.example.downloadapp.fragment.ProcessingFragment;
 import com.example.downloadapp.fragment.ResultFragment;
 import com.example.downloadapp.listener.DownloadActionListener;
+import com.example.downloadapp.model.DownloadItem;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,11 +82,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onStartDownload(String fileName, String url) {
+    public void onStartDownload(String fileName, String url, String format) {
         try {
-            FileOutputStream outputStream = openFileOutput(fileName, MODE_PRIVATE);
-            downloadTask = new DownloadTask(outputStream);
-            downloadTask.execute(url);
+            DownloadItem downloadItem = new DownloadItem(fileName,url, 0, DownloadItem.EStatus.DOWNLOADING, format);
+            processingFragment.addItemProcessingView(downloadItem);
         } catch (Exception e) {
             Log.e("MainActivity", "Error starting download: " + e.getMessage());
         }

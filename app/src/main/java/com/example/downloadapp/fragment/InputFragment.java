@@ -97,7 +97,8 @@ public class InputFragment extends Fragment {
         bindingDialog.btnAdd.setOnClickListener(v -> {
             String url = bindingDialog.etLink.getText().toString();
             String fileName = bindingDialog.etName.getText().toString();
-            mDownloadActionListener.onStartDownload(fileName, url);
+            String format = bindingDialog.etFormat.getText().toString();
+            mDownloadActionListener.onStartDownload(fileName, url, format);
 
             dialog.dismiss();
         });

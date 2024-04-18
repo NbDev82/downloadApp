@@ -3,17 +3,25 @@ package com.example.downloadapp.model;
 public class DownloadItem {
     private String fileName;
     private String url;
+    private String format;
     private int progress;
     private EStatus status;
 
-    public DownloadItem() {
-    }
 
-    public DownloadItem(String fileName, String url, int progress, EStatus status) {
+    public DownloadItem(String fileName, String url, int progress, EStatus status, String format) {
         this.fileName = fileName;
         this.url = url;
         this.progress = progress;
         this.status = status;
+        this.format = format;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 
     public String getFileName() {
